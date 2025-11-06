@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: esboard
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: workly.info
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-https
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vue-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - workly.info
+      secretName: workly-secert

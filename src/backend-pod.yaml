@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-https
+  labels:
+    app: https
+spec:
+  containers:
+    - name: container
+      image: wngud1/hoeng:5.9.9
+      env:
+        - name: TZ
+          value: "Asia/Seoul"
+  terminationGracePeriodSeconds: 0
+---
