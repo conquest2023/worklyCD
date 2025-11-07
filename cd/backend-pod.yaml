@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:5.9.9
+      image: wngud1/hoeng:6.0.1
       env:
         - name: TZ
           value: "Asia/Seoul"
