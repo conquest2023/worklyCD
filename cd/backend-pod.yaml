@@ -10,6 +10,7 @@ spec:
       image: wngud1/hoeng:6.0.4
       env:
         - name: TZ
-          value: "Asia/Seoul"
+          value: Asia/Seoul
   terminationGracePeriodSeconds: 0
----
+--- null
+...
