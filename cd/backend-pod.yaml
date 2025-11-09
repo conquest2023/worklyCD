@@ -11,7 +11,7 @@ spec:
       env:
         - name: TZ
           value: Asia/Seoul
-        - name: SPRING_DATA_MONGODB_URI
+        - name: SPRING_DATA_MYSQL_URI
           valueFrom:
             secretKeyRef:
               name: workly-mysql-secret
