@@ -7,10 +7,10 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:6.0.4
+      image: wngud1/hoeng:main-6552a9218968342aac6956ddc1cc71e8ea8f4f52
       env:
         - name: TZ
           value: Asia/Seoul
   terminationGracePeriodSeconds: 0
---- null
-...
+---
+null
