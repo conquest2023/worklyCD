@@ -20,7 +20,9 @@ spec:
           value: redis-service.default.svc.cluster.local
         - name: SPRING_DATA_REDIS_PORT
           value: '6379'
-  #      envFrom:
-  #        - secretRef:
-  #            name: spring-config
+      envFrom:
+          - secretRef:
+              name: workly-config
+          - secretRef:
+              name: workly-es
   terminationGracePeriodSeconds: 0
