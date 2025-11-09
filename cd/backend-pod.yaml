@@ -16,6 +16,11 @@ spec:
             secretKeyRef:
               name: workly-mysql-secret
               key: SPRING_DATA_MYSQL_URI
+        - name: SPRING_APPLICATION_JSON
+          valueFrom:
+            secretKeyRef:
+              name: workly-s3-secret
+              key: SPRING_APPLICATION_JSON
         - name: SPRING_DATA_REDIS_HOST
           value: redis-service.default.svc.cluster.local
         - name: SPRING_DATA_REDIS_PORT
