@@ -11,11 +11,20 @@ spec:
       env:
         - name: TZ
           value: Asia/Seoul
-        - name: SPRING_DATA_MYSQL_URI
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql-external.default.svc.cluster.local:3306/board?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+        - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
               name: workly-mysql-secret
-              key: SPRING_DATA_MYSQL_URI
+              key: MYSQL_USER
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: workly-mysql-secret
+              key: MYSQL_PASSWORD
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: com.mysql.cj.jdbc.Driver
         - name: SPRING_APPLICATION_JSON
           valueFrom:
             secretKeyRef:
