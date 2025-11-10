@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:main-6552a9218968342aac6956ddc1cc71e8ea8f4f52
+      image: wngud1/hoeng:main-1913b532bbf6588c5a2cc8b71de89300d9f2fc08
       env:
         - name: TZ
           value: Asia/Seoul
@@ -30,6 +30,29 @@ spec:
         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
           value: com.mysql.cj.jdbc.Driver
 
+        - name: ELASTICSEARCH_URIS
+          valueFrom:
+              secretKeyRef:
+                name: workly-es
+                key: host
+
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: workly-es
+              key: username
+
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: workly-es
+              key: password
+
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: workly-es
+              key: apikey
         # ===========================
         # AWS / S3
         # ===========================
@@ -47,29 +70,6 @@ spec:
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
 
-        - name: SPRING_ELASTICSEARCH_URIS
-          valueFrom:
-              secretKeyRef:
-                name: workly-es
-                key: host
-
-        - name: SPRING_ELASTICSEARCH_USERNAME
-          valueFrom:
-                  secretKeyRef:
-                    name: workly-es
-                    key: username
-
-        - name: SPRING_ELASTICSEARCH_PASSWORD
-          valueFrom:
-                  secretKeyRef:
-                    name: workly-es
-                    key: password
-
-        - name: ELASTICSEARCH_API_KEY
-          valueFrom:
-                  secretKeyRef:
-                    name: workly-es
-                    key: apikey
         # ===========================
         # RabbitMQ
         # ===========================
@@ -106,6 +106,5 @@ spec:
       envFrom:
         - secretRef:
             name: workly-config
-
 
   terminationGracePeriodSeconds: 0
