@@ -30,25 +30,25 @@ spec:
         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
           value: com.mysql.cj.jdbc.Driver
 
-        - name: ELASTICSEARCH_URIS
+        - name:  host
           valueFrom:
               secretKeyRef:
                 name: workly-es
                 key: host
 
-        - name: ELASTICSEARCH_USERNAME
+        - name: username
           valueFrom:
             secretKeyRef:
               name: workly-es
               key: username
 
-        - name: ELASTICSEARCH_PASSWORD
+        - name:  password
           valueFrom:
             secretKeyRef:
               name: workly-es
               key: password
 
-        - name: API_KEY
+        - name: apikey
           valueFrom:
             secretKeyRef:
               name: workly-es
