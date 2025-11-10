@@ -7,11 +7,10 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:main-1913b532bbf6588c5a2cc8b71de89300d9f2fc08
+      image: wngud1/hoeng:main-af34a271319ed6fd56d92c8d93ae13b2c624b0e0
       env:
         - name: TZ
           value: Asia/Seoul
-
         # ===========================
         # MySQL
         # ===========================
@@ -29,25 +28,21 @@ spec:
               key: MYSQL_PASSWORD
         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
           value: com.mysql.cj.jdbc.Driver
-
-        - name:  host
+        - name: host
           valueFrom:
-              secretKeyRef:
-                name: workly-es
-                key: host
-
+            secretKeyRef:
+              name: workly-es
+              key: host
         - name: username
           valueFrom:
             secretKeyRef:
               name: workly-es
               key: username
-
-        - name:  password
+        - name: password
           valueFrom:
             secretKeyRef:
               name: workly-es
               key: password
-
         - name: apikey
           valueFrom:
             secretKeyRef:
@@ -61,7 +56,6 @@ spec:
             secretKeyRef:
               name: workly-s3-secret
               key: SPRING_APPLICATION_JSON
-
         # ===========================
         # Redis
         # ===========================
@@ -69,7 +63,6 @@ spec:
           value: redis-service.default.svc.cluster.local
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
-
         # ===========================
         # RabbitMQ
         # ===========================
@@ -93,7 +86,6 @@ spec:
             secretKeyRef:
               name: rabbitmq-secret
               key: SPRING_RABBITMQ_PASSWORD
-
         # ===========================
         # JWT Secret
         # ===========================
@@ -102,9 +94,7 @@ spec:
             secretKeyRef:
               name: workly-jwt-secret
               key: JWT_SECRET
-
       envFrom:
         - secretRef:
             name: workly-config
-
   terminationGracePeriodSeconds: 0
