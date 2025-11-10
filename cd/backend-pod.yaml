@@ -51,11 +51,11 @@ spec:
         # ===========================
         # AWS / S3
         # ===========================
-        - name: SPRING_APPLICATION_JSON
-          valueFrom:
-            secretKeyRef:
-              name: workly-s3-secret
-              key: SPRING_APPLICATION_JSON
+#        - name: SPRING_APPLICATION_JSON
+#          valueFrom:
+#            secretKeyRef:
+#              name: workly-s3-secret
+#              key: SPRING_APPLICATION_JSON
         # ===========================
         # Redis
         # ===========================
