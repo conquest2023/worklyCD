@@ -12,7 +12,9 @@ spec:
         - name: TZ
           value: Asia/Seoul
 
+        # ===========================
         # MySQL
+        # ===========================
         - name: SPRING_DATASOURCE_URL
           value: jdbc:mysql://mysql-external.default.svc.cluster.local:3306/board?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
         - name: SPRING_DATASOURCE_USERNAME
@@ -28,20 +30,26 @@ spec:
         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
           value: com.mysql.cj.jdbc.Driver
 
+        # ===========================
         # AWS / S3
+        # ===========================
         - name: SPRING_APPLICATION_JSON
           valueFrom:
             secretKeyRef:
               name: workly-s3-secret
               key: SPRING_APPLICATION_JSON
 
+        # ===========================
         # Redis
+        # ===========================
         - name: SPRING_DATA_REDIS_HOST
           value: redis-service.default.svc.cluster.local
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
 
+        # ===========================
         # RabbitMQ
+        # ===========================
         - name: SPRING_RABBITMQ_HOST
           valueFrom:
             secretKeyRef:
@@ -62,6 +70,15 @@ spec:
             secretKeyRef:
               name: rabbitmq-secret
               key: SPRING_RABBITMQ_PASSWORD
+
+        # ===========================
+        # JWT Secret
+        # ===========================
+        - name: SPRING_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: workly-jwt-secret
+              key: JWT_SECRET
 
       envFrom:
         - secretRef:
