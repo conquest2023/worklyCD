@@ -47,6 +47,29 @@ spec:
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
 
+        - name: SPRING_ELASTICSEARCH_URIS
+          valueFrom:
+              secretKeyRef:
+                name: workly-es
+                key: host
+
+        - name: SPRING_ELASTICSEARCH_USERNAME
+          valueFrom:
+                  secretKeyRef:
+                    name: workly-es
+                    key: username
+
+        - name: SPRING_ELASTICSEARCH_PASSWORD
+          valueFrom:
+                  secretKeyRef:
+                    name: workly-es
+                    key: password
+
+        - name: ELASTICSEARCH_API_KEY
+          valueFrom:
+                  secretKeyRef:
+                    name: workly-es
+                    key: apikey
         # ===========================
         # RabbitMQ
         # ===========================
@@ -83,7 +106,6 @@ spec:
       envFrom:
         - secretRef:
             name: workly-config
-        - secretRef:
-            name: workly-es
+
 
   terminationGracePeriodSeconds: 0
