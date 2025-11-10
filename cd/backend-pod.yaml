@@ -74,7 +74,7 @@ spec:
         # ===========================
         # JWT Secret
         # ===========================
-        - name: SPRING_JWT_SECRET
+        - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: workly-jwt-secret
