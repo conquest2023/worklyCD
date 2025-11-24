@@ -51,11 +51,6 @@ spec:
               # ===========================
               # AWS / S3
               # ===========================
-        - name: SPRING_S3_CONFIG_JSON
-          valueFrom:
-            secretKeyRef:
-              name: workly-s3-secret
-              key: SPRING_S3_CONFIG
         # ===========================
         # Redis
         # ===========================
@@ -103,4 +98,6 @@ spec:
       envFrom:
         - secretRef:
             name: workly-config
+        - secretRef:
+            name: workly-s3-secret
   terminationGracePeriodSeconds: 0
