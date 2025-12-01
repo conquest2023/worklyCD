@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: vue
-          image: wngud1/vue-frontend:main-d493b8bc4c781e963a3b5644b9961a03d62383dc
+          image: wngud1/vue-frontend:main-3ed77551d916f01f266d7959c37a0403477dc0d6
           ports:
             - containerPort: 80
 ---
