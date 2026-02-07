@@ -3,18 +3,17 @@ kind: Deployment
 metadata:
   name: vue-frontend
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: vue
+      app: vue-frontend
   template:
     metadata:
       labels:
-        app: vue
+        app: vue-frontend
     spec:
       containers:
         - name: vue
           image: wngud1/vue-frontend:main-f1aabdba3436a0d19b2122ceb7774bf9d9ca20a2
           ports:
             - containerPort: 80
----
-
