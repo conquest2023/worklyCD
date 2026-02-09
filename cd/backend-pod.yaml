@@ -55,8 +55,8 @@ spec:
         - name: SPRING_DATA_MONGODB_URI
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
-              key: SPRING_DATA_MONGODB_URI
+              name: mongodb-properties-secret
+              key: SPRING_DATA_MONGODB_PROPERTIES_URI
         # ===========================
         # Redis
         # ===========================
