@@ -51,6 +51,12 @@ spec:
               # ===========================
               # AWS / S3
               # ===========================
+
+        - name: SPRING_DATA_MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: SPRING_DATA_MONGODB_URI
         # ===========================
         # Redis
         # ===========================
