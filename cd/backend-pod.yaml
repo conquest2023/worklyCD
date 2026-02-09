@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:main-d263a28af6218c897365f89eb294ec4aabb4f344
+      image: wngud1/hoeng:main-51e1a22ec08f59616949c122d0a0d52c90618033
       env:
         - name: TZ
           value: Asia/Seoul
