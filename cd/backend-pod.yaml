@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:main-51e1a22ec08f59616949c122d0a0d52c90618033
+      image: wngud1/hoeng:main-fdd3aae65abe3580903da4008fed28b756522a7c
       env:
         - name: TZ
           value: Asia/Seoul
@@ -51,7 +51,6 @@ spec:
               # ===========================
               # AWS / S3
               # ===========================
-
         - name: SPRING_DATA_MONGODB_URI
           valueFrom:
             secretKeyRef:
