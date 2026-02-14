@@ -21,7 +21,7 @@ spec:
               service:
                 name: vue-service
                 port:
-                  number: 8080
+                  number: 80
 
           # 2. OG 태그용 포스트 (백엔드)
           - path: /post
