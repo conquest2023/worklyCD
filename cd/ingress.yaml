@@ -3,22 +3,18 @@ kind: Ingress
 metadata:
   name: esboard
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    # 기존 annotations 중 불필요하거나 충돌 날 만한 것 정리
     nginx.ingress.kubernetes.io/proxy-body-size: "30m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
-    nginx.ingress.kubernetes.io/use-http2: "true" # 여러 API 요청을 한 번에 병렬 처리
-    nginx.ingress.kubernetes.io/upstream-keepalive-connections: "32" # 백엔드와 연결 유지
-    nginx.ingress.kubernetes.io/upstream-keepalive-timeout: "60"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      tcp_nodelay on;
-      tcp_nopush on;
+    nginx.ingress.kubernetes.io/use-http2: "true"
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx # annotations 대신 이걸로 우선순위 설정
   rules:
     - host: workly.info
       http:
         paths:
+          # 1. API 요청 (백엔드)
           - path: /api
             pathType: Prefix
             backend:
@@ -27,6 +23,7 @@ spec:
                 port:
                   number: 8080
 
+          # 2. OG 태그용 포스트 (백엔드)
           - path: /post
             pathType: Prefix
             backend:
@@ -35,13 +32,7 @@ spec:
                 port:
                   number: 8080
 
-#          - path: /assets
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: svc-https
-#                port:
-#                  number: 8080
+          # 3. 그 외 모든 요청 (프론트: /assets 포함)
           - path: /
             pathType: Prefix
             backend:
