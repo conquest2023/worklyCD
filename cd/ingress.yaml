@@ -3,18 +3,22 @@ kind: Ingress
 metadata:
   name: esboard
   annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-body-size: "30m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
-    # SSL/TLS 설정을 사용 중이라면 아래 주석을 해제하세요.
-    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/use-http2: "true" # 여러 API 요청을 한 번에 병렬 처리
+    nginx.ingress.kubernetes.io/upstream-keepalive-connections: "32" # 백엔드와 연결 유지
+    nginx.ingress.kubernetes.io/upstream-keepalive-timeout: "60"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      tcp_nodelay on;
+      tcp_nopush on;
 spec:
   ingressClassName: nginx
   rules:
     - host: workly.info
       http:
         paths:
-          # 1. API 요청: 스프링 부트 (기존 유지)
           - path: /api
             pathType: Prefix
             backend:
@@ -23,7 +27,6 @@ spec:
                 port:
                   number: 8080
 
-          # 2. 상세 페이지 직접 접속 (카톡 클릭/복붙): 스프링 부트가 썸네일과 index.html 응답
           - path: /post
             pathType: Prefix
             backend:
@@ -32,14 +35,13 @@ spec:
                 port:
                   number: 8080
 
-          # 3. 정적 자원 요청: 스프링 부트가 관리하는 페이지에서 쓰는 JS/CSS 파일
-          - path: /assets
-            pathType: Prefix
-            backend:
-              service:
-                name: svc-https
-                port:
-                  number: 8080
+#          - path: /assets
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: svc-https
+#                port:
+#                  number: 8080
           - path: /
             pathType: Prefix
             backend:
