@@ -4,7 +4,6 @@ metadata:
   name: esboard
   annotations:
     # 기존 annotations 중 불필요하거나 충돌 날 만한 것 정리
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-body-size: "30m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
@@ -44,4 +43,4 @@ spec:
   tls:
     - hosts:
         - workly.info
-      secretName: workly-info-tls
+      secretName: workly-secert
