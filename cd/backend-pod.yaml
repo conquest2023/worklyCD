@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:main-e0973fb168ba935103a70b7aa2a50d5ac39b7987
+      image: wngud1/hoeng:main-3a255dc2fd6370c2dddcb98b11f447b9799c7777
       ports:
         - containerPort: 8080
         - containerPort: 8081
@@ -51,19 +51,15 @@ spec:
             secretKeyRef:
               name: workly-es
               key: apikey
-
         - name: SPRING_DATA_MONGODB_URI
           valueFrom:
             secretKeyRef:
               name: mongodb-properties-secret
               key: SPRING_DATA_MONGODB_PROPERTIES_URI
-
         - name: SPRING_DATA_REDIS_HOST
-
           value: redis-service.default.svc.cluster.local
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
-
         - name: SPRING_RABBITMQ_HOST
           valueFrom:
             secretKeyRef:
