@@ -8,6 +8,9 @@ spec:
   containers:
     - name: container
       image: wngud1/hoeng:main-e0973fb168ba935103a70b7aa2a50d5ac39b7987
+      ports:
+        - containerPort: 8080
+        - containerPort: 8081
       env:
         - name: TZ
           value: Asia/Seoul
@@ -48,30 +51,19 @@ spec:
             secretKeyRef:
               name: workly-es
               key: apikey
-              # ===========================
-              # AWS / S3
-              # ===========================
+
         - name: SPRING_DATA_MONGODB_URI
           valueFrom:
             secretKeyRef:
               name: mongodb-properties-secret
               key: SPRING_DATA_MONGODB_PROPERTIES_URI
-        # ===========================
-        # Redis
-        # ===========================
+
         - name: SPRING_DATA_REDIS_HOST
-          #        - name: SPRING_APPLICATION_JSON
-          #          valueFrom:
-          #            secretKeyRef:
-          #              name: workly-s3-secret
-          #              key: SPRING_APPLICATION_JSON
 
           value: redis-service.default.svc.cluster.local
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
-        # ===========================
-        # RabbitMQ
-        # ===========================
+
         - name: SPRING_RABBITMQ_HOST
           valueFrom:
             secretKeyRef:
@@ -105,4 +97,6 @@ spec:
             name: workly-config
         - secretRef:
             name: workly-s3-secret
+        - secretRef:
+            name: spring-monitoring-secret
   terminationGracePeriodSeconds: 0
