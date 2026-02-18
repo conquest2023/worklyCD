@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: container
-      image: wngud1/hoeng:main-3a255dc2fd6370c2dddcb98b11f447b9799c7777
+      image: wngud1/hoeng:main-22116f0c5c48f2f32ccb686ebaf35ce9a33f9423
       ports:
         - containerPort: 8080
         - containerPort: 8081
