@@ -1,98 +1,117 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: pod-https
+  name: deploy-https
   labels:
     app: https
 spec:
-  containers:
-    - name: container
-      image: wngud1/hoeng:main-26bec992d233f182edd96187506cd8a19530f6c6
-      ports:
-        - containerPort: 8080
-        - containerPort: 8081
-      env:
-        - name: TZ
-          value: Asia/Seoul
-        # ===========================
-        # MySQL
-        # ===========================
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:mysql://mysql-external.default.svc.cluster.local:3306/board?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-        - name: SPRING_DATASOURCE_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: workly-mysql-secret
-              key: MYSQL_USER
-        - name: SPRING_DATASOURCE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: workly-mysql-secret
-              key: MYSQL_PASSWORD
-        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-          value: com.mysql.cj.jdbc.Driver
-        - name: host
-          valueFrom:
-            secretKeyRef:
-              name: workly-es
-              key: host
-        - name: username
-          valueFrom:
-            secretKeyRef:
-              name: workly-es
-              key: username
-        - name: password
-          valueFrom:
-            secretKeyRef:
-              name: workly-es
-              key: password
-        - name: apikey
-          valueFrom:
-            secretKeyRef:
-              name: workly-es
-              key: apikey
-        - name: SPRING_DATA_MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              name: mongodb-properties-secret
-              key: SPRING_DATA_MONGODB_PROPERTIES_URI
-        - name: SPRING_DATA_REDIS_HOST
-          value: redis-service.default.svc.cluster.local
-        - name: SPRING_DATA_REDIS_PORT
-          value: "6379"
-        - name: SPRING_RABBITMQ_HOST
-          valueFrom:
-            secretKeyRef:
-              name: rabbitmq-secret
-              key: SPRING_RABBITMQ_HOST
-        - name: SPRING_RABBITMQ_PORT
-          valueFrom:
-            secretKeyRef:
-              name: rabbitmq-secret
-              key: SPRING_RABBITMQ_PORT
-        - name: SPRING_RABBITMQ_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: rabbitmq-secret
-              key: SPRING_RABBITMQ_USERNAME
-        - name: SPRING_RABBITMQ_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: rabbitmq-secret
-              key: SPRING_RABBITMQ_PASSWORD
-        # ===========================
-        # JWT Secret
-        # ===========================
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: workly-jwt-secret
-              key: JWT_SECRET
-      envFrom:
-        - secretRef:
-            name: workly-config
-        - secretRef:
-            name: workly-s3-secret
-        - secretRef:
-            name: spring-monitoring-secret
-  terminationGracePeriodSeconds: 0
+  replicas: 2 # 초기 가용성 확보를 위해 2개로 시작 권장
+  selector:
+    matchLabels:
+      app: https
+  template:
+    metadata:
+      labels:
+        app: https
+    spec:
+      containers:
+        - name: container
+          image: wngud1/hoeng:main-26bec992d233f182edd96187506cd8a19530f6c6
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+
+          # [SER7 64GB 최적화 리소스 설정]
+          resources:
+            requests:
+              cpu: "500m"      # HPA 기준점 (0.5코어)
+              memory: "512Mi"  # JVM 최소 힙 공간 확보
+            limits:
+              cpu: "1000m"     # 부하 시 최대 1코어까지 허용
+              memory: "1Gi"    # OOM 방지를 위한 상한선
+
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            # MySQL
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-external.default.svc.cluster.local:3306/board?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: workly-mysql-secret
+                  key: MYSQL_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: workly-mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: com.mysql.cj.jdbc.Driver
+            # Elasticsearch
+            - name: host
+              valueFrom:
+                secretKeyRef:
+                  name: workly-es
+                  key: host
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: workly-es
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: workly-es
+                  key: password
+            - name: apikey
+              valueFrom:
+                secretKeyRef:
+                  name: workly-es
+                  key: apikey
+            # MongoDB & Redis
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-properties-secret
+                  key: SPRING_DATA_MONGODB_PROPERTIES_URI
+            - name: SPRING_DATA_REDIS_HOST
+              value: redis-service.default.svc.cluster.local
+            - name: SPRING_DATA_REDIS_PORT
+              value: "6379"
+            # RabbitMQ
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: SPRING_RABBITMQ_HOST
+            - name: SPRING_RABBITMQ_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: SPRING_RABBITMQ_PORT
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: SPRING_RABBITMQ_USERNAME
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: SPRING_RABBITMQ_PASSWORD
+            # JWT
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: workly-jwt-secret
+                  key: JWT_SECRET
+          envFrom:
+            - secretRef:
+                name: workly-config
+            - secretRef:
+                name: workly-s3-secret
+            - secretRef:
+                name: spring-monitoring-secret
+      # Deployment에서는 보통 30초 이상의 여유를 두는 것이 좋으나, 기존 설정 유지
+      terminationGracePeriodSeconds: 30
