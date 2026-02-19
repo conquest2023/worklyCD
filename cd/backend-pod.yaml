@@ -20,16 +20,14 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 8081
-
           # [SER7 64GB 최적화 리소스 설정]
           resources:
             requests:
-              cpu: "500m"      # HPA 기준점 (0.5코어)
-              memory: "512Mi"  # JVM 최소 힙 공간 확보
+              cpu: "500m" # HPA 기준점 (0.5코어)
+              memory: "512Mi" # JVM 최소 힙 공간 확보
             limits:
-              cpu: "1000m"     # 부하 시 최대 1코어까지 허용
-              memory: "1Gi"    # OOM 방지를 위한 상한선
-
+              cpu: "1000m" # 부하 시 최대 1코어까지 허용
+              memory: "1Gi" # OOM 방지를 위한 상한선
           env:
             - name: TZ
               value: Asia/Seoul
