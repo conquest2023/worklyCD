@@ -111,5 +111,7 @@ spec:
                 name: workly-s3-secret
             - secretRef:
                 name: spring-monitoring-secret
+            - secretRef:
+                name: english-config
       # Deployment에서는 보통 30초 이상의 여유를 두는 것이 좋으나, 기존 설정 유지
       terminationGracePeriodSeconds: 30
