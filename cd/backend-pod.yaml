@@ -27,7 +27,7 @@ spec:
               memory: "2Gi" # JVM 최소 힙 공간 확보
             limits:
               cpu: "1000m" # 부하 시 최대 1코어까지 허용
-              memory: "1Gi" # OOM 방지를 위한 상한선
+              memory: "2Gi" # OOM 방지를 위한 상한선
           env:
             - name: TZ
               value: Asia/Seoul
