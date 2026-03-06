@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: container
-          image: wngud1/hoeng:main-e430a8f2146aa86b35016e95c6bbcebd66a11c6d
+          image: wngud1/hoeng:main-53c5d18486cb628f2b7adacba0cd9998e2df2ad4
           ports:
             - containerPort: 8080
             - containerPort: 8081
