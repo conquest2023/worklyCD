@@ -3,26 +3,27 @@ kind: Ingress
 metadata:
   name: esboard
   annotations:
-    # 기존 annotations 중 불필요하거나 충돌 날 만한 것 정리
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-body-size: "30m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
     nginx.ingress.kubernetes.io/use-http2: "true"
+    nginx.ingress.kubernetes.io/proxy-set-headers: "X-Forwarded-For=$proxy_add_x_forwarded_for,X-Forwarded-Proto=$scheme"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-Proto https;
 spec:
-  ingressClassName: nginx # annotations 대신 이걸로 우선순위 설정
+  ingressClassName: nginx
   rules:
     - host: workly.info
       http:
         paths:
-          # 1. API 요청 (백엔드)
           - path: /api
             pathType: Prefix
             backend:
               service:
-                name: vue-service
+                name: svc-https
                 port:
-                  number: 80
+                  number: 8080
 
           # 2. OG 태그용 포스트 (백엔드)
           - path: /post
