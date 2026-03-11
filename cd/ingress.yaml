@@ -5,12 +5,12 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-body-size: "30m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
-    nginx.ingress.kubernetes.io/use-http2: "true"
+#    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+#    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # [중요] Snippet 대신 표준 어노테이션으로 세션 정보 전달
     nginx.ingress.kubernetes.io/proxy-set-headers: "X-Forwarded-For=$proxy_add_x_forwarded_for,X-Forwarded-Proto=$scheme"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Forwarded-Proto https;
 spec:
   ingressClassName: nginx
   rules:
