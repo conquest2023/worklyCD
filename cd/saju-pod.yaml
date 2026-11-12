@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saju-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saju-web
+  template:
+    metadata:
+      labels:
+        app: saju-web
+    spec:
+      containers:
+        - name: saju
+          # BASE_PATH=/saju 로 빌드된 이미지여야 한다 (worklySecret/web/Dockerfile)
+          image: wngud1/saju-web:0.1.0-d074d96
+          ports:
+            - containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /saju
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /saju
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

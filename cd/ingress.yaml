@@ -33,6 +33,15 @@ spec:
                 port:
                   number: 8080
 
+          # 커리어 사주 (Next.js, BASE_PATH=/saju)
+          - path: /saju
+            pathType: Prefix
+            backend:
+              service:
+                name: saju-service
+                port:
+                  number: 3000
+
           # 3. 그 외 모든 요청 (프론트: /assets 포함)
           - path: /
             pathType: Prefix
