@@ -15,7 +15,7 @@ spec:
       containers:
         - name: saju
           # BASE_PATH=/saju 로 빌드된 이미지여야 한다 (worklySecret/web/Dockerfile)
-          image: wngud1/saju-web:0.2.0-workly-ui
+          image: wngud1/saju-web:0.3.0-89d0204
           ports:
             - containerPort: 3000
           readinessProbe:
